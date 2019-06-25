@@ -1,0 +1,14 @@
+{
+    "config": {
+            "DISPLAY_SDA":   "DISPLAY_SDA",
+            "DISPLAY_SCL":   "DISPLAY_SCL"
+    },
+    "target_overrides": {
+        "*":{
+            "target.components_add": ["EMWIN_NOSNTS"],
+            "DISPLAY_SDA":   "P6_1",
+            "DISPLAY_SCL":   "P6_0",
+            "platform.stdio-convert-newlines": true
+        }
+    }
+}
