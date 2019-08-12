@@ -58,7 +58,7 @@ I2C Display_I2C(MBED_CONF_APP_DISPLAY_SDA, MBED_CONF_APP_DISPLAY_SCL);
 /* I2C slave address, Command and Data byte prefixes for the display controller */
 #define OLED_I2C_ADDRESS            (0x78)
 #define OLED_CONTROL_BYTE_CMD       (0x00)
-#define OLED_CONTROL_BYTE_DATA      (0x70)
+#define OLED_CONTROL_BYTE_DATA      (0x40)
 
 /* I2C bus speed */
 #define I2C_SPEED                   (400000)
@@ -89,7 +89,7 @@ void I2C_Init(void)
 }
 
 /*******************************************************************************
-* Function Name: void I2C_Write00(unsigned char c) 
+* Function Name: void I2C_WriteCommandByte(unsigned char c) 
 ********************************************************************************
 *
 * Summary: This function writes a command byte to the display controller with A0 = 0
@@ -101,7 +101,7 @@ void I2C_Init(void)
 *  None
 *
 *******************************************************************************/
-void I2C_Write00(unsigned char c) 
+void I2C_WriteCommandByte(unsigned char c) 
 {
     char buff[2];
     
@@ -115,7 +115,7 @@ void I2C_Write00(unsigned char c)
 }
 
 /*******************************************************************************
-* Function Name: void I2C_Write01(unsigned char c) 
+* Function Name: void I2C_WriteDataByte(unsigned char c) 
 ********************************************************************************
 *
 * Summary: This function writes a data byte to the display controller with A0 = 1
@@ -127,7 +127,7 @@ void I2C_Write00(unsigned char c)
 *  None
 *
 *******************************************************************************/
-void I2C_Write01(unsigned char c) 
+void I2C_WriteDataByte(unsigned char c) 
 {
     char buff[2];
     
@@ -141,7 +141,7 @@ void I2C_Write01(unsigned char c)
 }
 
 /*******************************************************************************
-* Function Name: void I2C_WriteM01(unsigned char * pData, int NumBytes) 
+* Function Name: void I2C_WriteDataStream(unsigned char * pData, int NumBytes) 
 ********************************************************************************
 *
 * Summary: This function writes multiple data bytes to the display controller with A0 = 1
@@ -154,7 +154,7 @@ void I2C_Write01(unsigned char c)
 *  None
 *
 *******************************************************************************/
-void I2C_WriteM01(unsigned char * pData, int numBytes) 
+void I2C_WriteDataStream(unsigned char * pData, int numBytes) 
 {   
     int i;
 
@@ -178,7 +178,7 @@ void I2C_WriteM01(unsigned char * pData, int numBytes)
 }
 
 /*******************************************************************************
-* Function Name: void I2C_ReadM01(unsigned char * pData, int numBytes)  
+* Function Name: void I2C_ReadDataStream(unsigned char * pData, int numBytes)  
 ********************************************************************************
 *
 * Summary: This function reads multiple data bytes from the display controller with A0 = 1
@@ -191,7 +191,7 @@ void I2C_WriteM01(unsigned char * pData, int numBytes)
 *  None
 *
 *******************************************************************************/
-void I2C_ReadM01(unsigned char * pData, int numBytes) 
+void I2C_ReadDataStream(unsigned char * pData, int numBytes) 
 {
     /* SSD1306 is not readable through i2c. Using cache instead (LCDConf.c, GUIDRV_SPAGE_1C1)*/
 }

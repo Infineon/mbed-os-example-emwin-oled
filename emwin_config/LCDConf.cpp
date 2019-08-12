@@ -154,46 +154,46 @@ static void _InitController(void)
     I2C_Init();
     GUI_X_Delay(50);
   
-    I2C_Write00(OLED_DISPLAYOFF);            // 0xAE
-    I2C_Write00(OLED_SETDISPLAYCLOCKDIV);    // 0xD5
-    I2C_Write00(0xF0);                       // the suggested ratio 0x80
+    I2C_WriteCommandByte(OLED_DISPLAYOFF);            // 0xAE
+    I2C_WriteCommandByte(OLED_SETDISPLAYCLOCKDIV);    // 0xD5
+    I2C_WriteCommandByte(0xF0);                       // the suggested ratio 0x80
 
-    I2C_Write00(OLED_SETMULTIPLEX);          // 0xA8
-    I2C_Write00(YSIZE_PHYS - 1);
+    I2C_WriteCommandByte(OLED_SETMULTIPLEX);          // 0xA8
+    I2C_WriteCommandByte(YSIZE_PHYS - 1);
 
-    I2C_Write00(OLED_SETDISPLAYOFFSET);      // 0xD3
-    I2C_Write00(0x00);                       // no offset
-    I2C_Write00(OLED_SETSTARTLINE | 0x0);    // line #0
-    I2C_Write00(OLED_CHARGEPUMP);            // 0x8D
-    I2C_Write00(0x14);
-    I2C_Write00(OLED_MEMORYMODE);            // 0x20
-    I2C_Write00(0x02);                       // Horizontal addressing mode (A[1:0]=00b) <-
+    I2C_WriteCommandByte(OLED_SETDISPLAYOFFSET);      // 0xD3
+    I2C_WriteCommandByte(0x00);                       // no offset
+    I2C_WriteCommandByte(OLED_SETSTARTLINE | 0x0);    // line #0
+    I2C_WriteCommandByte(OLED_CHARGEPUMP);            // 0x8D
+    I2C_WriteCommandByte(0x14);
+    I2C_WriteCommandByte(OLED_MEMORYMODE);            // 0x20
+    I2C_WriteCommandByte(0x02);                       // Horizontal addressing mode (A[1:0]=00b) <-
                                              // Vertical addressing mode: (A[1:0]=01b)
                                              // Page addressing mode (A[1:0]=10b)
-    I2C_Write00(OLED_SEGREMAP | 0x1);
-    I2C_Write00(OLED_COMSCANDEC);
+    I2C_WriteCommandByte(OLED_SEGREMAP | 0x1);
+    I2C_WriteCommandByte(OLED_COMSCANDEC);
 
-    I2C_Write00(OLED_SETCOMPINS);            // 0xDA
+    I2C_WriteCommandByte(OLED_SETCOMPINS);            // 0xDA
     
     #if YSIZE_PHYS == 64
-        I2C_Write00(0x12);
+        I2C_WriteCommandByte(0x12);
     #elif YSIZE_PHYS == 32
-        I2C_Write00(0x02);
+        I2C_WriteCommandByte(0x02);
     #endif
     
-    I2C_Write00(OLED_SETCONTRAST);           // 0x81
-    I2C_Write00(0x8F);
+    I2C_WriteCommandByte(OLED_SETCONTRAST);           // 0x81
+    I2C_WriteCommandByte(0x8F);
 
-    I2C_Write00(OLED_SETPRECHARGE);          // 0xd9
-    I2C_Write00(0xF1);
-    I2C_Write00(OLED_SETVCOMDETECT);         // 0xDB
-    I2C_Write00(0x20);
-    I2C_Write00(OLED_DISPLAYALLON_RESUME);   // 0xA4
-    I2C_Write00(OLED_NORMALDISPLAY);         // 0xA6
+    I2C_WriteCommandByte(OLED_SETPRECHARGE);          // 0xd9
+    I2C_WriteCommandByte(0xF1);
+    I2C_WriteCommandByte(OLED_SETVCOMDETECT);         // 0xDB
+    I2C_WriteCommandByte(0x20);
+    I2C_WriteCommandByte(OLED_DISPLAYALLON_RESUME);   // 0xA4
+    I2C_WriteCommandByte(OLED_NORMALDISPLAY);         // 0xA6
 
-    I2C_Write00(OLED_DEACTIVATE_SCROLL);
+    I2C_WriteCommandByte(OLED_DEACTIVATE_SCROLL);
 
-    I2C_Write00(OLED_DISPLAYON);
+    I2C_WriteCommandByte(OLED_DISPLAYON);
 }
 
 /*********************************************************************
@@ -235,9 +235,9 @@ void LCD_X_Config(void)
     //
     // Configure hardware routines
     //
-    PortAPI.pfWrite8_A0  = I2C_Write00;
-    PortAPI.pfWrite8_A1  = I2C_Write01;
-    PortAPI.pfWriteM8_A1 = I2C_WriteM01;
+    PortAPI.pfWrite8_A0  = I2C_WriteCommandByte;
+    PortAPI.pfWrite8_A1  = I2C_WriteDataByte;
+    PortAPI.pfWriteM8_A1 = I2C_WriteDataStream;
     
     /* SSD1306 is not readable through i2c. Cache is enabled 
     to use display without data read operations*/
@@ -284,12 +284,12 @@ int LCD_X_DisplayDriver(unsigned LayerIndex, unsigned Cmd, void * pData) {
         break;
 
     case LCD_X_ON: 
-        I2C_Write00(OLED_DISPLAYON);
+        I2C_WriteCommandByte(OLED_DISPLAYON);
         r = 0;
         break;
         
     case LCD_X_OFF: 
-        I2C_Write00(OLED_DISPLAYOFF);
+        I2C_WriteCommandByte(OLED_DISPLAYOFF);
         r = 0;
         break;
 

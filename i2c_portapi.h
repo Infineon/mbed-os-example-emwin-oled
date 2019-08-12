@@ -48,10 +48,10 @@
 *       Public routines
 */
 void          I2C_Init(void);
-void          I2C_Write00(unsigned char c);
-void          I2C_Write01(unsigned char c);
-void          I2C_WriteM01(unsigned char * pData, int NumBytes);
-void          I2C_ReadM01(unsigned char * pData, int NumBytes);
+void          I2C_WriteCommandByte(unsigned char c);
+void          I2C_WriteDataByte(unsigned char c);
+void          I2C_WriteDataStream(unsigned char * pData, int NumBytes);
+void          I2C_ReadDataStream(unsigned char * pData, int NumBytes);
 
 #endif /* __I2C_H */
 
