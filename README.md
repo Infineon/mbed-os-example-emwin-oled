@@ -1,6 +1,8 @@
 ﻿-------------------------------------------------------------------------------
 ## mbed-os-example-emwin-oled
 
+Note: This project does not work with Mbed OS version 5.13.x. This will be updated soon.
+
 ### Requirements
 
 [Mbed CLI](https://github.com/ARMmbed/mbed-cli) 
@@ -235,7 +237,7 @@ Document Title: emWin OLED for Mbed OS
 
 | Revision | Orig. of Change | Submission Date | Description of Change |
 | -------- | --------------- | --------------- | --------------------- |
-| **       | GRAA            | 6/25/2019       | New code example      |
+| **       | GRAA            | 6/25/2019       | New code example. Tested with Mbed OS Version 5.12.2      |
 
 ------
 
