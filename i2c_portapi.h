@@ -1,7 +1,7 @@
 /******************************************************************************
 * File Name: i2c_portapi.h
 *
-* Version: 1.00
+* Version: 1.01
 *
 * Description: This is the header file for i2c_portapi.h
 *

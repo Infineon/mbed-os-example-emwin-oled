@@ -1,7 +1,7 @@
 /******************************************************************************
 * File Name: i2c_portapi.cpp
 *
-* Version: 1.00
+* Version: 1.01
 *
 * Description: This file contains the I2C port API functions that will be
 *               used by emWin to communicate with the OLED display

@@ -1,8 +1,6 @@
 ﻿-------------------------------------------------------------------------------
 ## mbed-os-example-emwin-oled
 
-Note: This project does not work with Mbed OS version 5.13.x. This will be updated soon.
-
 ### Requirements
 
 [Mbed CLI](https://github.com/ARMmbed/mbed-cli) 
@@ -64,7 +62,7 @@ mbed compile --toolchain GCC_ARM --target CY8CKIT_062_WIFI_BT --flash
 
 ### Operation
 
-Once the project is compiled and the board is progra	mmed, reset the board.
+Once the project is compiled and the board is programmed, reset the board.
 
 - Startup screen with Cypress logo is displayed on the OLED display for 3 seconds.
 - After 3 seconds, another screen appears with instructions to press SW2 to scroll through the display pages.
@@ -81,14 +79,14 @@ Let us take a look at how this project was created and configured.  There are th
 
 For instructions to add emWin in an Mbed project refer the following web page.
 
-[Cypress emWin Middleware Overview](https://cypresssemiconductorco.github.io/middleware-emwin/emwin_overview/html/index.html)
+[Cypress emWin Middleware Overview](https://cypresssemiconductorco.github.io/emwin/emwin_overview/html/index.html)
 
 **Note:** This section shows the step by step procedure of how this project was created from scratch.  To run the code example out of box, you just need to follow the steps explained in the  "Importing, Compiling and Running the Code Example" section.
 
 #### Step #1 Creating a new project and adding emWin middleware to the project
 
 1. Create a new Mbed project by using the following command.  
-    
+   
     `mbed new mbed-os-example-emwin-oled`
 
     This creates a new folder with the project name and imports Mbed OS into the folder.
@@ -98,8 +96,8 @@ For instructions to add emWin in an Mbed project refer the following web page.
     `cd mbed-os-example-emwin-oled`
 
 3. Add emWin middleware to the project by using following command.
-    
-    `mbed add https://github.com/cypresssemiconductorco/middleware-emwin`
+   
+    `mbed add https://github.com/cypresssemiconductorco/emwin`
 
     This command imports emWin library files into the Mbed project.
 
@@ -119,15 +117,7 @@ For instructions to add emWin in an Mbed project refer the following web page.
     
 2. Decide the emWin display driver to use for the display controller.  Details of display drivers and supported display controllers can be found in "Chapter 33 Display Drivers" in the emWin User Guide.  The OLED display has the SSD1306 controller.  This controller is supported by GUIDRV_SPage driver. 
 
-3. Create a folder emwin_config and copy following files.
-
-    - Copy LCDConf.c file from the folder middleware-emwin\Sample\LCDConf\GUIDRV_SPage\Generic.  Rename it to LCDConf.cpp
-
-    - Copy LCDConf.h file from the folder middleware-emwin\Sample\LCDConf\GUIDRV_SPage
-
-    - Copy GUI_X_Mbed.cpp from the folder middleware-emwin\Sample\GUI_X folder
-
-    - Copy GUIConf.c from the folder middleware-emwin\Sample\GUIConf.  Rename this file to GUIConf.cpp
+3. Create a new folder emwin_config in the Mbed project directory.  Copy all the files from "emwin/Config/MbedOS/<Driver_Name>" folder to this newly created emwin_config folder.
 
 4. Write port access functions for I2C.  For this project, i2c_portapi.cpp and i2c_portapi.h that have been created.  emWin requires functions to write single command byte, write single data byte, write multiple data bytes and read multiple data bytes.
 
@@ -180,9 +170,9 @@ For instructions to add emWin in an Mbed project refer the following web page.
     In the LCD_X_Config function, update emWin port access pointers with the I2C port access functions in 		i2c_portapi.cpp.
 
     ```C++
-    PortAPI.pfWrite8_A0  = I2C_Write00;
-    PortAPI.pfWrite8_A1  = I2C_Write01;
-    PortAPI.pfWriteM8_A1 = I2C_WriteM01;
+    PortAPI.pfWrite8_A0  = I2C_WriteCommandByte;
+    PortAPI.pfWrite8_A1  = I2C_WriteDataByte;
+    PortAPI.pfWriteM8_A1 = I2C_WriteDataStream;
     ```
 
     In the LCD_X_Config function, setup the driver.
@@ -216,7 +206,7 @@ For CY8CKIT-062-WiFi-BT:
 |                                                              |                                                              |
 | :----------------------------------------------------------- | :----------------------------------------------------------- |
 | **Device Documentation**                                     |                                                              |
-| [PSoC 6 MCU Datasheets](http://www.cypress.com/search/all?f[0]=meta_type%3Atechnical_documents&f[1]=resource_meta_type%3A575&f[2]=field_related_products%3A114026) | [PSoC 6 Technical Reference Manuals](http://www.cypress.com/search/all/PSoC 6 Technical Reference Manual?f[0]=meta_type%3Atechnical_documents&f[1]=resource_meta_type%3A583) |
+| [PSoC 6 MCU Datasheets](http://www.cypress.com/search/all?f[0]=meta_type%3Atechnical_documents&f[1]=resource_meta_type%3A575&f[2]=field_related_products%3A114026) | [PSoC 6 Technical Reference Manuals](https://www.cypress.com/search/all/PSoC%206%20Technical%20Reference%20Manual?f[0]=meta_type%3Atechnical_documents&f[1]=resource_meta_type%3A583) |
 | **Development Kits**                                         |                                                              |
 | [CY8CKIT-062-BLE PSoC 6 BLE Pioneer Kit](http://www.cypress.com/CY8CKIT-062-BLE) | [CY8CKIT-062-WiFi-BT PSoC 6 WiFi-BT Pioneer Kit](http://www.cypress.com/CY8CKIT-062-WiFi-BT) |
 | [CY8CKIT-032 AFE Shield](https://www.cypress.com/documentation/development-kitsboards/cy8ckit-032-psoc-analog-front-end-afe-arduino-shield) |                                                              |
@@ -235,9 +225,10 @@ For the PSoC 6 MCU devices, see [KBA223067](https://community.cypress.com/docs/D
 
 Document Title: emWin OLED for Mbed OS
 
-| Revision | Orig. of Change | Submission Date | Description of Change |
-| -------- | --------------- | --------------- | --------------------- |
-| **       | GRAA            | 6/25/2019       | New code example. Tested with Mbed OS Version 5.12.2      |
+| Revision | Orig. of Change | Submission Date | Description of Change                                |
+| -------- | --------------- | --------------- | ---------------------------------------------------- |
+| **       | GRAA            | 6/25/2019       | New code example. Tested with Mbed OS Version 5.12.2 |
+| *A       | GRAA            | 8/23/2019       | Updated to Mbed OS 5.13.3                            |
 
 ------
 

@@ -1,7 +1,7 @@
 /******************************************************************************
 * File Name: main.cpp
 *
-* Version: 1.00
+* Version: 1.01
 *
 * Description: This file main application code for the emWin Graphics
 *				library OLED Display.
