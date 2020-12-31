@@ -1,8 +1,19 @@
-BUILD/*
-.build
+# Libraries
+mbed-os/
+emwin/
+display-oled-ssd1306/
+core-lib/
+
+# Build output
+BUILD/
+
+# Exports
+eclipse-extras/
+*.pyc
 .mbed
-projectfiles
-*.py*
-.vscode
 GettingStarted.html
 mbed_config.h
+mbed_settings.py
+
+# Misc
+.vscode/
